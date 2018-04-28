@@ -21,3 +21,9 @@ disp(v(3));
 
 v = prodvetorial([y,0], [x,0]);
 disp(v(3));
+
+if (0)
+    disp('if');
+else
+    disp('else');
+end
