@@ -10,20 +10,23 @@ clear; clc;
 %     end
 % end
 % surfc(X,Y,Z);
+disp(angulo([1,0],[-1,0]));
+disp(angulo([1,0],[-1,0.01]));
+disp(angulo([1,0],[-1,-0.01]));
+disp(pseudoangulo([1,0],[-1,0]));
+disp(pseudoangulo([1,0],[-1,0.1]));
+disp(pseudoangulo([1,0],[-1,-0.1]));
+disp(anguloorientado([-1,0]));
+disp(anguloorientado([-1,0.1]));
+disp(anguloorientado([-1,-0.1]));
 %% Test prod vet
-x = rand(1,2);
-y = rand(1,2);
-v = prodvetorial([x,0], [y,0]);
-hold on;
-plot([x(1);0], [x(2);0], 'b-', 'LineWidth', 3);
-plot([y(1);0], [y(2);0], 'r-', 'LineWidth', 3);
-disp(v(3));
-
-v = prodvetorial([y,0], [x,0]);
-disp(v(3));
-
-if (0)
-    disp('if');
-else
-    disp('else');
-end
+% x = rand(1,2);
+% y = rand(1,2);
+% v = prodvetorial([x,0], [y,0]);
+% hold on;
+% plot([x(1);0], [x(2);0], 'b-', 'LineWidth', 3);
+% plot([y(1);0], [y(2);0], 'r-', 'LineWidth', 3);
+% disp(v(3));
+% 
+% v = prodvetorial([y,0], [x,0]);
+% disp(v(3));
