@@ -1,7 +1,8 @@
 function ehInterior = pontoInterior(P,p)
     [N,~] = size(P);
     xMax = getXMax(P);
-    L = [p(1), xMax + 1];
+%     L = [p(1), xMax + 1];
+    L = [xMax + 1, p(2)];
     ehInterior = 0;
     qtdInt = 0;
     for i = 1:N
