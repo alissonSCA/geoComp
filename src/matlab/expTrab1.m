@@ -1,41 +1,45 @@
 clear; clc; close all;
+%% Datasets
+title_ds = {'wine','iris','simple class','glass'};
+[X,t] = wine_dataset;
+dataset{1}.X = X;
+dataset{1}.t = t;
+[X,t] = iris_dataset;
+dataset{2}.X = X;
+dataset{2}.t = t;
+[X,t] = simpleclass_dataset;
+dataset{3}.X = X;
+dataset{3}.t = t;
+[X,t] = glass_dataset;
+dataset{4}.X = X;
+dataset{4}.t = t;
 %%
-[X,t] = glass_dataset;%wine_dataset;%iris_dataset;%simpleclass_dataset;%
-X = zscore(X');
-t = t';%t(1,:)';
-[Xl, Tl, Xt, Tt] = shuffle(X,t);
+pM = 1;
+alpha = 2;
+for ds = 1:numel(dataset)    
+    X = zscore(dataset{ds}.X');
+    t = dataset{ds}.t';
+    
+    [Xl, Tl, Xt, Tt] = shuffle(X,t);
 
-model = trab1RNCH_train(Xl,Tl);
-y = trab1RNCH_test(model,Xt);
-
-[nT,~] = size(Tt);
-acc = 0;
-for i = 1:nT
-    [~,iT] = max(Tt(i,:));
-    [~,iY] = max(y(i,:));
-    acc = acc + (iY == iT)/nT;
-    if (iY ~= iT)
-        disp([i iT iY]);
+    model = trab1RNCH_train(Xl,Tl,pM,alpha);
+    y = trab1RNCH_test(model,Xt);
+    
+    %% Get Accuracy
+    [nT,~] = size(Tt);
+    acc = 0;
+    for i = 1:nT
+        [~,iT] = max(Tt(i,:));
+        [~,iY] = max(y(i,:));
+        acc = acc + (iY == iT)/nT;
     end
+    disp(acc);
+    %% Plot result
+    subplot(2,2,ds);
+    hold on;
+    title(strcat(title_ds{ds},' (', num2str(acc),')'));
+    plotDataset2D(Xl*model.w,Tl);
+    for i = 1:model.nC
+        plotPolSimples(model.F{i});
+    end    
 end
-disp(acc);
-
-Xtt = Xt*model.w;
-plotDataset2D(Xtt,Tt);
-
-% [w, Xl] = pca(Xl);
-% Xl1 = Xl(Tl==1,1:2);
-% Xl2 = Xl(Tl==0,1:2);
-% F1 = mergehull(Xl1);
-% F2 = mergehull(Xl2);
-% %%
-% hold on;
-% plot(Xl1(:,1),Xl1(:,2),'ro');
-% plot(Xl2(:,1),Xl2(:,2),'bo');
-% plotPolSimples(F1,0);
-% plotPolSimples(F2,0);
-% Xt = Xt*w;
-% Xt1 = Xt(Tt==1,1:2);
-% Xt2 = Xt(Tt==0,1:2);
-% plot(Xt1(:,1),Xt1(:,2),'r*');
-% plot(Xt2(:,1),Xt2(:,2),'b*');
